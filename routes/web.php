@@ -5,13 +5,17 @@ use App\Http\Controllers\TranslationController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
+
+
+
+Route::get('/', function () {
+    return redirect('/api/documentation');
+});
+
 Route::prefix('api')->middleware('api')->group(function () {
 
     //create user and bearer token for APIs
-    Route::get('createBearerToken', function () {
-        $u = User::factory()->create(['email' => 'admin@example.com', 'password' => 'Password']);
-        $u->createToken('admin')->plainTextToken;
-    });
+    Route::get('/generate-token', [AuthTokenController::class, 'createBearerToken']);
     // Public export
     Route::middleware('throttle:120,1')->get('/translations/export', [TranslationController::class, 'export']);
 

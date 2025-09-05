@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 
 class TranslationController extends Controller
 {
-
     /**
      * @OA\Get(
      *      path="/api/translations",

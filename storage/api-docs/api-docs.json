@@ -6,6 +6,34 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/generate-token": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Generate or return existing bearer token",
+                "description": "Creates a user (admin@example.com) if not exists, and returns the bearer token. If token already exists, retrieves it from DB.",
+                "operationId": "3852f3274c6de3a7b5f4dff6c018175b",
+                "responses": {
+                    "200": {
+                        "description": "Bearer token generated or retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|xYzAbcDefGhIjKlMnOpQrStUvWxYz"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/translations": {
             "get": {
                 "tags": [
@@ -394,6 +422,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
         {
             "name": "Translations",
             "description": "Translations"
