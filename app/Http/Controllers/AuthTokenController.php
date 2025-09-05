@@ -40,30 +40,38 @@ class AuthTokenController extends Controller
      */
     public function createBearerToken(): JsonResponse
     {
+        // $user = User::firstOrCreate(
+        //     ['email' => 'admin@example.com'],
+        //     ['password' => Hash::make('Password')]
+        // );
+
+        // // Look for existing token
+        // $existingToken = $user->tokens()->where('name', 'admin')->first();
+
+        // if ($existingToken && $existingToken->token) {
+        //     return response()->json([
+        //         'token' => $existingToken->token
+        //     ]);
+        // }
+        // // Create new token and save plain version
+        // $newToken = $user->createToken('admin');
+        // $token = $newToken->token;
+
+        // // Store plain token for future retrieval
+        // $tokenModel = PersonalAccessToken::find($newToken->accessToken->id);
+        // $tokenModel->token = $token;
+        // $tokenModel->save();
+        // Delete old tokens for cleanliness
         $user = User::firstOrCreate(
             ['email' => 'admin@example.com'],
             ['password' => Hash::make('Password')]
         );
 
-        // Look for existing token
-        $existingToken = $user->tokens()->where('name', 'admin')->first();
+        $user->tokens()->where('name', 'admin')->delete();
 
-        if ($existingToken && $existingToken->token) {
-            return response()->json([
-                'token' => $existingToken->token
-            ]);
-        }
-        // Create new token and save plain version
-        $newToken = $user->createToken('admin');
-        $token = $newToken->token;
+        // Create new token
+        $token = $user->createToken('admin')->plainTextToken;
 
-        // Store plain token for future retrieval
-        $tokenModel = PersonalAccessToken::find($newToken->accessToken->id);
-        $tokenModel->token = $token;
-        $tokenModel->save();
-
-        return response()->json([
-            'token' => $token
-        ]);
+        return response()->json(['token' => $token]);
     }
 }
